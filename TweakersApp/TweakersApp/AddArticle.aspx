@@ -10,15 +10,6 @@
         {
             width: 101px;
         }
-        .style4
-        {
-            width: 101px;
-            height: 31px;
-        }
-        .style5
-        {
-            height: 31px;
-        }
         .style6
         {
             width: 101px;
@@ -40,14 +31,6 @@
             </td>
             <td __designer:mapid="2c">
                 <asp:TextBox ID="tbArticleTitel" runat="server"></asp:TextBox>
-            </td>
-        </tr>
-        <tr __designer:mapid="2e">
-            <td class="style4" valign="top" __designer:mapid="2f">
-                    Selecteer product:</td>
-            <td class="style5" valign="top" __designer:mapid="30">
-                <asp:DropDownList ID="ddlArtikelProducts" runat="server">
-                </asp:DropDownList>
             </td>
         </tr>
         <tr __designer:mapid="32">

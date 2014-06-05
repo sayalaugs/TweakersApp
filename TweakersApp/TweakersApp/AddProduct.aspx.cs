@@ -38,7 +38,14 @@ namespace TweakersApp
 
             Product product = new Product(1, productName, releaseDate, productPrice);
 
-            ctrl.AddProduct(product);
+            if (ctrl.AddProduct(product))
+            {
+                lblMessage.Text = "het product is toegevoegd!";
+            }
+            else
+            {
+                lblMessage.Text = "foutje";
+            }
         }
     }
 }

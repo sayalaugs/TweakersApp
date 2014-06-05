@@ -19,6 +19,7 @@ namespace TweakersApp
         private int ProductIdIn;
         private int ArticleIdIn;
         private int ReviewIdIn;
+        private int CommentIdIn;
 
         // the constructor in which the connectionstring is set
         public DatabaseConnection()
@@ -226,6 +227,76 @@ namespace TweakersApp
             return false;
         }
 
+        public bool AddArtComment(Comment comment, Article article, int UserID)
+        {
+            CommentIdIn = GetInsertID("CommentID", "Article_Comment");
+            CommentIdIn++;
+
+            string sql = "INSERT INTO Article_Comment  (CommentID, ArticleID, UserID, DateAdded, Text, AmountOfLikes, AmountOfDislikes) Values ( :ReviewID, :ProductID, :UserID, :Naam, :ReviewText, , :AmountOfLikes, :AmountOfDislikes)";
+
+            OracleCommand command = new OracleCommand(sql, conn);
+
+            command.Parameters.Add(":CommentID", CommentIdIn);
+            command.Parameters.Add(":ArticleID", article.ID);
+            command.Parameters.Add(":UserID", UserID);
+            command.Parameters.Add(":DateAdded", comment.DateAdded);
+            command.Parameters.Add(":Text", comment.Text);
+            command.Parameters.Add(":AmountOfLikes", comment.AmountOfLikes);
+            command.Parameters.Add(":AmountOfDislikes", comment.AmountOfDislikes);
+
+
+            try
+            {
+                conn.Open();
+                command.ExecuteNonQuery();
+                return true;
+
+            }
+            catch
+            {
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return false;
+        }
+
+        public bool AddRevComment(Comment comment, Review review, int UserID)
+        {
+            CommentIdIn = GetInsertID("CommentID", "Review_Comment");
+            CommentIdIn++;
+
+            string sql = "INSERT INTO Review_Comment  (CommentID, ReviewID, UserID, DateAdded, Text, AmountOfLikes, AmountOfDislikes) Values ( :ReviewID, :ProductID, :UserID, :Naam, :ReviewText, :AmountOfLikes, :AmountOfDislikes)";
+
+            OracleCommand command = new OracleCommand(sql, conn);
+
+            command.Parameters.Add(":CommentID", CommentIdIn);
+            command.Parameters.Add(":ReviewID", review.ID);
+            command.Parameters.Add(":UserID", UserID);
+            command.Parameters.Add(":DateAdded", comment.DateAdded);
+            command.Parameters.Add(":Text", comment.Text);
+            command.Parameters.Add(":AmountOfLikes", comment.AmountOfLikes);
+            command.Parameters.Add(":AmountOfDislikes", comment.AmountOfDislikes);
+
+
+            try
+            {
+                conn.Open();
+                command.ExecuteNonQuery();
+                return true;
+
+            }
+            catch
+            {
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return false;
+        }
+
         private int GetInsertID(string ID, string tabelnaam)
         {
             string insertID = "Select Max(" + ID + ") From " + tabelnaam;
@@ -282,6 +353,85 @@ namespace TweakersApp
 
                     return user;
                 }
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return null;
+        }
+
+        public Article GetArticle(int ID)
+        {
+            String cmd = "Select * from ARTICLE Where ArticleID = :ID";
+            OracleCommand command = new OracleCommand(cmd, conn);
+            command.CommandType = System.Data.CommandType.Text;
+
+            command.Parameters.Add(":ID", ID);
+
+            try
+            {
+                conn.Open();
+                OracleDataReader reader = command.ExecuteReader();
+                reader.Read();
+
+                int ArticleID = Convert.ToInt32(reader["ArticleID"]);
+                string Naam = reader["Naam"].ToString();
+                string Text = reader["Text"].ToString();
+                string Author = reader["Author"].ToString();
+                string DateAdded = reader["DateAdded"].ToString();
+
+                User user = GetAuthorUser(Author);
+                AuthorUser author = user as AuthorUser;
+
+                Article article = new Article(ArticleID, Naam, Text, author, DateAdded);
+
+                return article;
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return null;
+        }
+
+        public Review GetReview(int ID)
+        {
+            String cmd = "Select * from Review Where ReviewID = :ID";
+            OracleCommand command = new OracleCommand(cmd, conn);
+            command.CommandType = System.Data.CommandType.Text;
+
+            command.Parameters.Add(":ID", ID);
+
+            try
+            {
+                conn.Open();
+                OracleDataReader reader = command.ExecuteReader();
+                reader.Read();
+
+                int ReviewID = Convert.ToInt32(reader["ReviewID"]);
+                int ProductID = Convert.ToInt32(reader["ProductID"]);
+                int UserID = Convert.ToInt32(reader["UserID"]);
+                string Naam = reader["Naam"].ToString();
+                string ReviewText = reader["ReviewText"].ToString();
+                int ProductRating = Convert.ToInt32(reader["ProductRating"]);
+
+                User user = GetUser(UserID);
+                Product product = GetProduct(ProductID);
+
+                Review review = new Review(ReviewID, Naam, ReviewText, ProductRating, user, product);
+
+                return review;
 
             }
             catch
@@ -448,7 +598,7 @@ namespace TweakersApp
             DataSet dataSet = new DataSet();
             DataTable dt = null;
 
-            string sql = "Select * from Article";
+            string sql = "Select ArticleID, Naam, Text, Author, DateAdded from Article";
 
 
             try
@@ -458,6 +608,102 @@ namespace TweakersApp
                 OracleDataAdapter adapter = new OracleDataAdapter();
                 OracleCommand command = new OracleCommand(sql, conn);
                 command.CommandText = sql;
+                adapter.SelectCommand = command;
+                adapter.Fill(dataSet);
+                dt = dataSet.Tables[0];
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return dt;
+        }
+
+        public DataTable DatatableReviews()
+        {
+
+            DataSet dataSet = new DataSet();
+            DataTable dt = null;
+
+            string sql = "Select ReviewID, Naam, ReviewText, ProductRating from Review";
+
+
+            try
+            {
+                conn.Open();
+
+                OracleDataAdapter adapter = new OracleDataAdapter();
+                OracleCommand command = new OracleCommand(sql, conn);
+                command.CommandText = sql;
+                adapter.SelectCommand = command;
+                adapter.Fill(dataSet);
+                dt = dataSet.Tables[0];
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return dt;
+        }
+
+        public DataTable DatatableArtComments(int ID)
+        {
+
+            DataSet dataSet = new DataSet();
+            DataTable dt = null;
+
+            string sql = "Select CommentId, DateAdded, Text, AmountOfLikes, AmountOfDislikes  FROM Article_Comment Where ArticleID = :ArtId";
+
+            try
+            {
+                conn.Open();
+
+                OracleDataAdapter adapter = new OracleDataAdapter();
+                OracleCommand command = new OracleCommand(sql, conn);
+                command.CommandText = sql;
+                command.Parameters.Add(":ArtId", ID);
+                adapter.SelectCommand = command;
+                adapter.Fill(dataSet);
+                dt = dataSet.Tables[0];
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return dt;
+        }
+
+        public DataTable DatatableRevComments(int ID)
+        {
+
+            DataSet dataSet = new DataSet();
+            DataTable dt = null;
+
+            string sql = "Select CommentId, DateAdded, Text, AmountOfLikes, AmountOfDislikes  FROM Review_Comment Where ReviewID = :RevId";
+
+            try
+            {
+                conn.Open();
+
+                OracleDataAdapter adapter = new OracleDataAdapter();
+                OracleCommand command = new OracleCommand(sql, conn);
+                command.CommandText = sql;
+                command.Parameters.Add(":RevId", ID);
                 adapter.SelectCommand = command;
                 adapter.Fill(dataSet);
                 dt = dataSet.Tables[0];
@@ -578,6 +824,149 @@ namespace TweakersApp
                 conn.Close();
             }
             return null;
+        }
+
+        public List<Comment> GetArtComments(int ArtId)
+        {
+            string sql = "Select * FROM ARTICLE_COMMENT Where ArticleID = :ArtId";
+            OracleCommand command = new OracleCommand(sql, conn);
+            command.CommandType = System.Data.CommandType.Text;
+
+            command.Parameters.Add(":ArtId", ArtId);
+
+            try
+            {
+                conn.Open();
+                List<Comment> comments = new List<Comment>();
+                OracleDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int CommentID = reader.GetInt32(0);
+                    int ArticleID = Convert.ToInt32(reader["ArticleID"]);
+                    int UserID = Convert.ToInt32(reader["UserID"]);
+                    int Rating = Convert.ToInt32(reader["Rating"]);
+                    string DateAdded = reader["DateAdded"].ToString();
+                    string Text = reader["Text"].ToString();
+                    int AmountOfLikes = Convert.ToInt32(reader["AmountOfLikes"]);
+                    int AmountOfDislikes = Convert.ToInt32(reader["AmountOfDislikes"]);
+
+
+                    User user = GetUser(UserID);
+                    Article article = GetArticle(ArticleID);
+                    
+                    Comment comment = new Comment(CommentID, user, DateAdded, Text);
+
+                    comment.AmountOfLikes = AmountOfLikes;
+                    comment.AmountOfDislikes = AmountOfDislikes;
+                    comment.ID = CommentID;
+                    comments.Add(comment);
+                }
+                return comments;
+            }
+            catch
+            {
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return null;
+        }
+
+        public bool Dislike_ArtComment(int CommentID)
+        {
+            string sql = "UPDATE Article_Comment Set AmountOfDislikes = AmountOfDislikes + 1 Where CommentID = :ID";
+            OracleCommand command = new OracleCommand(sql, conn);
+            command.CommandType = System.Data.CommandType.Text;
+
+            command.Parameters.Add(":ID", CommentID);
+
+            try
+            {
+                conn.Open();
+                command.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return false;
+        }
+
+        public bool Like_ArtComment(int CommentID)
+        {
+            string sql = "UPDATE Article_Comment Set AmountOfLikes = AmountOfLikes + 1 Where CommentID = :ID";
+            OracleCommand command = new OracleCommand(sql, conn);
+            command.CommandType = System.Data.CommandType.Text;
+
+            command.Parameters.Add(":ID", CommentID);
+
+            try
+            {
+                conn.Open();
+                command.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return false;
+        }
+
+        public bool Dislike_RevComment(int CommentID)
+        {
+            string sql = "UPDATE Review_Comment Set AmountOfDislikes = AmountOfDislikes + 1 Where CommentID = :ID";
+            OracleCommand command = new OracleCommand(sql, conn);
+            command.CommandType = System.Data.CommandType.Text;
+
+            command.Parameters.Add(":ID", CommentID);
+
+            try
+            {
+                conn.Open();
+                command.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return false;
+        }
+
+        public bool Like_RevComment(int CommentID)
+        {
+            string sql = "UPDATE Review_Comment Set AmountOfLikes = AmountOfLikes + 1 Where CommentID = :ID";
+            OracleCommand command = new OracleCommand(sql, conn);
+            command.CommandType = System.Data.CommandType.Text;
+
+            command.Parameters.Add(":ID", CommentID);
+
+            try
+            {
+                conn.Open();
+                command.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return false;
         }
     }          
 }

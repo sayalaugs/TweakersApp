@@ -32,7 +32,21 @@ namespace TweakersApp
             set { articles = value; }
         }
 
-        //voegt product toe, ook db toevoeging doen
+        //voegt comment toe aan list en aan database
+        public void AddArtComment(Comment comment, Article article, int UserId)
+        {
+            article.Comments.Add(comment);
+            db.AddArtComment(comment, article, UserId);
+        }
+
+        //voegt comment toe aan list en aan database
+        public void AddRevComment(Comment comment, Review review, int UserId)
+        {
+            review.Comments.Add(comment);
+            db.AddRevComment(comment, review, UserId);
+        }
+
+        //voegt product toe
         public bool AddProduct(Product product)
         {
             foreach(Product p in products)
@@ -84,6 +98,54 @@ namespace TweakersApp
             articles.Add(article);
             db.AddArticle(article, author);
             return true;
+        }
+
+        public void LikeComment(Article article, Comment comment)
+        {
+            foreach (Comment c in article.Comments)
+            {
+                if (c.ID == comment.ID)
+                {
+                    c.AmountOfLikes++;
+                    db.Like_ArtComment(c.ID);
+                }
+            }
+        }
+
+        public void LikeComment(Review review, Comment comment)
+        {
+            foreach (Comment c in review.Comments)
+            {
+                if (c.ID == comment.ID)
+                {
+                    c.AmountOfLikes++;
+                    db.Like_RevComment(c.ID);
+                }
+            }
+        }
+
+        public void DisikeComment(Article article, Comment comment)
+        {
+            foreach (Comment c in article.Comments)
+            {
+                if (c.ID == comment.ID)
+                {
+                    c.AmountOfLikes++;
+                    db.Dislike_ArtComment(c.ID);
+                }
+            }
+        }
+
+        public void DisikeComment(Review review, Comment comment)
+        {
+            foreach (Comment c in review.Comments)
+            {
+                if (c.ID == comment.ID)
+                {
+                    c.AmountOfLikes++;
+                    db.Dislike_RevComment(c.ID);
+                }
+            }
         }
     }
 }

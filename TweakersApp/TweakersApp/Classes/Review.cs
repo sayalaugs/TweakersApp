@@ -13,7 +13,9 @@ namespace TweakersApp
         public int ProductRating { get; private set; }
         public User User { get; private set; }
         public Product Product { get; private set; }
-        //lijst van comments waarschijnlijk
+
+        private List<Comment> comments = new List<Comment>();
+        public List<Comment> Comments { get { return comments; } set { comments = value; } }
 
         public Review(int ID, string Name, string Text, int ProductRating, User User, Product Product)
         {

@@ -12,7 +12,9 @@ namespace TweakersApp
         public string Text { get; private set; }
         public AuthorUser Author { get; private set; }
         public string DateAdded { get; private set; }
-        //lijst van comments
+
+        private List<Comment> comments = new List<Comment>();
+        public List<Comment> Comments { get { return comments; } set { comments = value; } }
 
         public Article(int ID, string Name, string Text, AuthorUser Author, string DateAdded)
         {

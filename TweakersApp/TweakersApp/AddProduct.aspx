@@ -48,6 +48,7 @@
             <td>
                 <asp:Button ID="btnAddProduct" runat="server" onclick="btnAddProduct_Click" 
                         Text="Toevoegen" />
+                <asp:Label ID="lblMessage" runat="server" Text="..."></asp:Label>
             </td>
         </tr>
     </table>

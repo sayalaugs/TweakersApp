@@ -77,6 +77,7 @@
             <td>
                 <asp:Button ID="btnReview" runat="server" onclick="btnReview_Click" 
                     Text="Plaats Review" />
+                <asp:Label ID="lblMessage" runat="server" Text="..."></asp:Label>
             </td>
         </tr>
     </table>

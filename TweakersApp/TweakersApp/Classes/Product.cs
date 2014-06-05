@@ -11,7 +11,6 @@ namespace TweakersApp
         public string Name { get;  set; }
         public string ReleaseDate { get;  set; }
         public decimal Price { get;  set; }
-        public Article Article { get; private set; } //hoeft niet, product kan ook los bestaan in het systeem
 
         public Product(int ID, string Name, string ReleaseDate, decimal Price)
         {

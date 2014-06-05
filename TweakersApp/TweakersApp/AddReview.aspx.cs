@@ -98,7 +98,14 @@ namespace TweakersApp
 
             Review review = new Review(1, titel, text, reviewrating, user, product);
 
-            ctrl.AddReview(review);
+            if (ctrl.AddReview(review))
+            {
+                lblMessage.Text = "de review is toegevoegd";
+            }
+            else
+            {
+                lblMessage.Text = "foutje";
+            }
         }
     }
 }
