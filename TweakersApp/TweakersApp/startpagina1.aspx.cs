@@ -8,7 +8,7 @@ using System.Data;
 
 namespace TweakersApp
 {
-    public partial class startpagina : System.Web.UI.Page
+    public partial class startpagina1 : System.Web.UI.Page
     {
         DatabaseConnection db = new DatabaseConnection();
         Controller ctrl = new Controller();

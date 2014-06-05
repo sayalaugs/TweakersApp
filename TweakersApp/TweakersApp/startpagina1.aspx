@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="startpagina.aspx.cs" Inherits="TweakersApp.startpagina" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="startpagina1.aspx.cs" Inherits="TweakersApp.startpagina1" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 

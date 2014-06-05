@@ -1,29 +1,13 @@
-﻿<%@ Page Title="" Language="C#"  AutoEventWireup="true" CodeBehind="Login1.aspx.cs" Inherits="TweakersApp.Login1" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Login1.aspx.cs" Inherits="TweakersApp.Login1" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-    <style type="text/css">
-        .style1
-        {
-            width: 32%;
-        }
-        .style2
-        {
-            width: 117px;
-        }
-        .style3
-        {
-            width: 61%;
-        }
-    </style>
-</head>
-<body>
+
     <form id="form1" runat="server">
     <div>
-    
+    <asp:Label ID="Label3" runat="server" Text="Inloggen" Font-Bold="True"></asp:Label>
         <table class="style1">
             <tr>
                 <td class="style2">
@@ -51,6 +35,9 @@
         </table>
     
     </div>
+    <br />
+
+     <asp:Label ID="Label4" runat="server" Text="Registreren" Font-Bold="True"></asp:Label>
     <table class="style3">
         <tr>
             <td class="style2">
@@ -118,5 +105,4 @@
         </tr>
     </table>
     </form>
-</body>
-</html>
+    </asp:Content>

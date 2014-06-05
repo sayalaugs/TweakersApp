@@ -10,7 +10,7 @@
 namespace TweakersApp {
     
     
-    public partial class startpagina {
+    public partial class startpagina1 {
         
         /// <summary>
         /// form1 control.
