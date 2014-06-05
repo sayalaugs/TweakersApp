@@ -29,12 +29,16 @@ namespace TweakersApp
             string password = tbPassword.Text;
             User loggedIn = db.Login(username, password);
 
-            if (loggedIn !=null)
+            if (loggedIn != null)
             {
                 Session["LogIn"] = loggedIn.LoginName;
                 Session["Soort"] = loggedIn.soort;
                 Response.Cookies["LoginName"].Value = loggedIn.LoginName;
                 Response.Redirect("~/Home.aspx");
+            }
+            else
+            {
+                lblMessageLogin.Text = "incorrecte gegevens, probeer het nog eens";
             }
 
         }
@@ -53,7 +57,15 @@ namespace TweakersApp
             if (soort == "Auteur")
             {
                 User user = new AuthorUser(1, name, birthdate, email, loginname, gender, soort, 0);
-                ctrl.AddUser(user, password);
+                if (ctrl.AddUser(user, password))
+                {
+                    lblMessageRegister.Text = "Registreren is gelukt!";
+                }
+                else
+                {
+                    lblMessageRegister.Text = "er is iets fout gegaan, probeer het nog eens";
+                }
+
             }
             else if (soort == "Normaal")
             {

@@ -30,6 +30,7 @@
                     &nbsp;</td>
                 <td>
                     <asp:Button ID="btnLogin" runat="server" onclick="btnLogin_Click" Text="Login" />
+                    <asp:Label ID="lblMessageLogin" runat="server" Text="..."></asp:Label>
                 </td>
             </tr>
         </table>
@@ -101,6 +102,7 @@
             <td>
                 <asp:Button ID="btnRegister" runat="server" onclick="btnRegister_Click" 
                     Text="Registreer" />
+                <asp:Label ID="lblMessageRegister" runat="server" Text="..."></asp:Label>
             </td>
         </tr>
     </table>
