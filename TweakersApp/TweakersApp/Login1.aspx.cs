@@ -34,7 +34,7 @@ namespace TweakersApp
                 Session["LogIn"] = loggedIn.LoginName;
                 Session["Soort"] = loggedIn.soort;
                 Response.Cookies["LoginName"].Value = loggedIn.LoginName;
-                Response.Redirect("~/startpagina1.aspx");
+                Response.Redirect("~/Home.aspx");
             }
 
         }

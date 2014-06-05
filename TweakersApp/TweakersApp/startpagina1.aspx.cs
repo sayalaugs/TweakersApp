@@ -20,7 +20,7 @@ namespace TweakersApp
             ctrl.Products = db.GetAllProducts();
             ctrl.Reviews = db.GetAllReviews();
 
-            gvComments.DataSource = db.DataTable();
+            gvComments.DataSource = db.DatatableArticles();
             gvComments.DataBind();
 
 

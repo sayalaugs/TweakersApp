@@ -18,6 +18,7 @@ namespace TweakersApp
             ctrl.Products = db.GetAllProducts();
 
             //haalt info op van ingelogde user
+            /*
             string soort = Session["Soort"].ToString();
             if (soort == "Auteur")
             {
@@ -27,6 +28,7 @@ namespace TweakersApp
             {
                 user = db.GetNormalUser(Session["LogIn"].ToString());
             }
+             * */
 
             refresh();
         }

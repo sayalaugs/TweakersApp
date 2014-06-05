@@ -162,14 +162,14 @@ namespace TweakersApp
         {
             ArticleIdIn = GetInsertID("ArticleID", "ARTICLE");
             ArticleIdIn++;
-            string sql = "INSERT INTO ARTICLE  (ArticleID, Naam, Text, Author, DateAdded) Values ( :ArticleID, :Naam, :Text, '" + author + "' , :DateAdded)";
+            string sql = "INSERT INTO ARTICLE  (ArticleID, Naam, Text, Author, DateAdded) Values ( :ArticleID, :Naam, :Text, :Author , :DateAdded)";
 
             OracleCommand command = new OracleCommand(sql, conn);
 
             command.Parameters.Add(":ArticleID", ArticleIdIn);
             command.Parameters.Add(":Naam", article.Name);
             command.Parameters.Add(":Text", article.Text);
-            //command.Parameters.Add(":Author", author);
+            command.Parameters.Add(":Author", author.Name);
             command.Parameters.Add(":DateAdded", article.DateAdded);
 
 
@@ -442,13 +442,13 @@ namespace TweakersApp
             return null;
         }
 
-        public DataTable DataTable()
+        public DataTable DatatableArticles()
         {
 
             DataSet dataSet = new DataSet();
             DataTable dt = null;
 
-            string sql = "Select * from GEBRUIKER";
+            string sql = "Select * from Article";
 
 
             try
