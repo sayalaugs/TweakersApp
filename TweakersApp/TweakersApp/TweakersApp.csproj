@@ -59,6 +59,7 @@
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Default.aspx" />
+    <Content Include="Home.aspx" />
     <Content Include="Login1.aspx" />
     <Content Include="Script\bootstrap.js" />
     <Content Include="Script\bootstrap.min.js" />
@@ -111,6 +112,13 @@
     <Compile Include="Classes\DatabaseConnection.cs" />
     <Compile Include="Classes\NormalUser.cs" />
     <Compile Include="Classes\Product.cs" />
+    <Compile Include="Home.aspx.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Home.aspx.designer.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Login1.aspx.cs">
       <DependentUpon>Login1.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
